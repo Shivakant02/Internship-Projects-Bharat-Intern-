@@ -1,7 +1,22 @@
-const express = require('express')
-const { signup } = require('../controller/authController.js')
+const express = require("express");
 const authRouter = express.Router();
+const jwtAuth = require("../middleware/jwtAuth.js");
 
-authRouter.post('/signup', signup);
+const {
+  signUp,
+  signIn,
+  forgotPassword,
+  resetPassword,
+  getUser,
+  logout
+} = require("../controller/authController.js");
 
-module.exports=authRouter
+authRouter.post("/signup", signUp);
+authRouter.post("/signin", signIn);
+authRouter.post("/forgotpassword", forgotPassword);
+authRouter.post("/resetpassword/:token", resetPassword);
+
+authRouter.get("/user", jwtAuth, getUser);
+authRouter.get("/logout", jwtAuth, logout);
+
+module.exports = authRouter;
